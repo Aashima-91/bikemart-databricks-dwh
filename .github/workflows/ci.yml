@@ -1,0 +1,53 @@
+# =============================================================================
+# CI: validate the bundle, then deploy + run the pipeline against the "dev"
+# target on every pull request targeting main.
+#
+# Required GitHub repo configuration:
+#   Variables (Settings > Secrets and variables > Actions > Variables):
+#     DATABRICKS_HOST           e.g. https://dbc-xxxxxxxx-xxxx.cloud.databricks.com
+#   Secrets (Settings > Secrets and variables > Actions > Secrets):
+#     DATABRICKS_TOKEN          a personal access token from
+#                               User Settings > Developer > Access tokens
+#     DATABRICKS_WAREHOUSE_ID   the serverless SQL warehouse ID
+#                               (Compute > SQL Warehouses > your warehouse)
+# =============================================================================
+name: CI - validate and test (dev)
+
+concurrency: ci-${{ github.ref }}
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate bundle
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      BUNDLE_VAR_warehouse_id: ${{ secrets.DATABRICKS_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Validate bundle
+        run: databricks bundle validate --target dev
+
+  deploy-and-run-dev:
+    name: Deploy and run (dev)
+    needs: validate
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      BUNDLE_VAR_warehouse_id: ${{ secrets.DATABRICKS_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+
+      - name: Deploy bundle to dev
+        run: databricks bundle deploy --target dev
+
+      - name: Run the medallion pipeline (dev)
+        run: databricks bundle run bikemart_medallion_pipeline --target dev

@@ -1,0 +1,33 @@
+# =============================================================================
+# Databricks Asset Bundle root configuration
+# =============================================================================
+# Workspace host is intentionally NOT hardcoded here: it's picked up from the
+# DATABRICKS_HOST environment variable at deploy/run time (set in the GitHub
+# Actions workflows below). This keeps the bundle portable across a personal
+# Free Edition workspace and, if you outgrow it later, a paid workspace --
+# without editing this file.
+# =============================================================================
+
+bundle:
+  name: bikemart_dwh
+
+include:
+  - resources/*.yml
+
+variables:
+  warehouse_id:
+    description: "ID of the serverless SQL warehouse the SQL tasks run against (Compute > SQL Warehouses in your workspace)"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      warehouse_id: ${var.warehouse_id}
+
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      warehouse_id: ${var.warehouse_id}

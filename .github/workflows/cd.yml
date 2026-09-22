@@ -1,0 +1,35 @@
+# =============================================================================
+# CD: deploy and run the pipeline against the "prod" target on every push
+# to main (i.e. after a PR has been reviewed and merged).
+#
+# Uses the same repo variable/secrets as ci.yml -- see that file's header.
+# =============================================================================
+name: CD - deploy and run (prod)
+
+concurrency: cd-prod
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-and-run-prod:
+    name: Deploy and run (prod)
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      BUNDLE_VAR_warehouse_id: ${{ secrets.DATABRICKS_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        run: databricks bundle validate --target prod
+
+      - name: Deploy bundle to prod
+        run: databricks bundle deploy --target prod
+
+      - name: Run the medallion pipeline (prod)
+        run: databricks bundle run bikemart_medallion_pipeline --target prod

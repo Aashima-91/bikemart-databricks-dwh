@@ -1,7 +1,7 @@
 # BikeMart Data Warehouse — Databricks + CI/CD
 
-[![CI - validate and test (dev)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml)
-[![CD - deploy and run (prod)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/cd.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/cd.yml)
+[![CI - validate and test (dev)](https://github.com/Aashima-91/bikemart-databricks-dwh/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml)
+[![CD - deploy and run (prod)](https://github.com/Aashima-91/bikemart-databricks-dwh/actions/workflows/cd.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/cd.yml)
 
 > Replace `YOUR_GITHUB_USERNAME/YOUR_REPO_NAME` in both badge URLs above with
 > your actual `owner/repo` once this is pushed to GitHub — a badge is just an

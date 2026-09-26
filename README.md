@@ -1,5 +1,14 @@
 # BikeMart Data Warehouse — Databricks + CI/CD
 
+[![CI - validate and test (dev)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/ci.yml)
+[![CD - deploy and run (prod)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/cd.yml/badge.svg)](https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME/actions/workflows/cd.yml)
+
+> Replace `YOUR_GITHUB_USERNAME/YOUR_REPO_NAME` in both badge URLs above with
+> your actual `owner/repo` once this is pushed to GitHub — a badge is just an
+> image URL GitHub generates per workflow file, so it starts working the
+> moment the workflow has run at least once (it shows "no status" before
+> that). No extra setup, secret, or config is needed beyond pushing the repo.
+
 A medallion-architecture (Bronze → Silver → Gold) data warehouse for a bike
 retailer, built on Databricks Free Edition and deployed with Databricks
 Asset Bundles + GitHub Actions.
